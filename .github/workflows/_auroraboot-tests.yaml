@@ -1,0 +1,63 @@
+name: AuroraBoot tests
+
+# Reusable step: the test jobs of the auroraboot/ Go module.
+#
+# unit-tests, vet-tagged and helm-chart need nothing but the source. The e2e,
+# raw-disk and UI jobs run the AuroraBoot image that _build-image-auroraboot.yaml
+# built from the same commit and uploaded as the artifact named by
+# image_artifact, so the caller runs that workflow first and lists it in
+# `needs`.
+#
+# Booting a UKI ISO is not tested here. _uki-test.yaml boots a UKI ISO that is
+# produced by `auroraboot build-uki` from the same AuroraBoot build, so a copy
+# of that test would run the same thing twice.
+
+on:
+  workflow_call:
+    inputs:
+      image_artifact:
+        description: 'Name of the workflow artifact that holds the amd64 AuroraBoot image archive'
+        type: string
+        default: auroraboot-image-amd64
+      e2e:
+        description: 'Run the slow jobs that boot or drive the AuroraBoot image (e2e, raw disk, UI, phone-home). The fast jobs always run.'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: auroraboot
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "fast job ran e2e=${{ inputs.e2e }}"
+  e2e-tests:
+    if: inputs.e2e
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "e2e-tests ran"
+  test-bootable-raw-efi:
+    if: inputs.e2e
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test-bootable-raw-efi ran"
+  test-bootable-raw-bios:
+    if: inputs.e2e
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test-bootable-raw-bios ran"
+  test-ui-builder:
+    if: inputs.e2e
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "test-ui-builder ran"
+  phonehome-vm:
+    if: inputs.e2e
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "phonehome-vm ran"

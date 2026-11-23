@@ -1,0 +1,9 @@
+name: master-like
+on: [push]
+permissions: { contents: read }
+jobs:
+  auroraboot-tests:
+    uses: ./.github/workflows/_auroraboot-tests.yaml
+    permissions: { contents: read }
+    with:
+      image_artifact: auroraboot-image-amd64
