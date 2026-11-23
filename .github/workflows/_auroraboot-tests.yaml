@@ -35,29 +35,41 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - run: echo "fast job ran e2e=${{ inputs.e2e }}"
   e2e-tests:
     if: inputs.e2e
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - run: echo "e2e-tests ran"
   test-bootable-raw-efi:
     if: inputs.e2e
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - run: echo "test-bootable-raw-efi ran"
   test-bootable-raw-bios:
     if: inputs.e2e
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - run: echo "test-bootable-raw-bios ran"
   test-ui-builder:
     if: inputs.e2e
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - run: echo "test-ui-builder ran"
   phonehome-vm:
     if: inputs.e2e
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - run: echo "phonehome-vm ran"
